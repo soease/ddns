@@ -1,29 +1,21 @@
-package ddns
-
-import (
-	"fmt"
-	"net/http"
-
-	"github.com/caddyserver/caddy/v2"
-)
-
-func init() {
-	caddy.RegisterModule(&DDNS{})
+{
+    order wake_on_lan  before respond
 }
 
-type DDNS struct {
+:2022 {
+    route /re {
+         respond "-"
+    }
+  
+    route /up {
+         wake_on_lan 00:11:22:33:44:55
+         respond "WOL完成"
+    }
+  
+    route / {
+    	respond "{time.now}： {user_agent.name}  {user_agent.version}  {user_agent.os}  {user_agent.os_version}  {user_agent.device}   {user_agent.mobile}  {user_agent.tablet}  {user_agent.desktop}   {user_agent.bot}   {user_agent.url}"
+    }
 }
 
-// 通过CaddyModule方法返回Caddy模块的信息
-func (DDNS) CaddyModule() caddy.ModuleInfo {
-	return caddy.ModuleInfo{
-		ID:  "http.handlers.hello_world",
-		New: func() caddy.Module { return new(DDNS) },
-	}
-}
 
-// 实现Handler接口
-func (g *DDNS) ServeHTTP(w http.ResponseWriter, r *http.Request) error {
-	fmt.Fprint(w, "Hello, World!")
-	return nil
-}
+   
