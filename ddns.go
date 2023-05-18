@@ -1,4 +1,4 @@
-package HelloWorld
+package ddns
 
 import (
 	"fmt"
@@ -8,24 +8,22 @@ import (
 )
 
 func init() {
-	caddy.RegisterModule(&HelloWorld{})
+	caddy.RegisterModule(&DDNS{})
 }
 
-// Gizmo只是一个例子；可以是你自己的类型
-type HelloWorld struct {
+type DDNS struct {
 }
 
 // 通过CaddyModule方法返回Caddy模块的信息
-func (HelloWorld) CaddyModule() caddy.ModuleInfo {
+func (DDNS) CaddyModule() caddy.ModuleInfo {
 	return caddy.ModuleInfo{
 		ID:  "http.handlers.hello_world",
-		New: func() caddy.Module { return new(HelloWorld) },
+		New: func() caddy.Module { return new(DDNS) },
 	}
 }
 
 // 实现Handler接口
-func (g *HelloWorld) ServeHTTP(w http.ResponseWriter, r *http.Request) error {
+func (g *DDNS) ServeHTTP(w http.ResponseWriter, r *http.Request) error {
 	fmt.Fprint(w, "Hello, World!")
 	return nil
 }
-
